@@ -1,12 +1,12 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import './App.css';
 import Store from './components/Store.jsx';
 import ItemView from './components/ItemView.jsx';
 import Nav from './components/Nav.jsx';
+import CartModal from './components/CartModal.jsx';
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore, getDocs, collection } from 'firebase/firestore';
-import CartModal from './components/CartModal.jsx';
 
 // setup cart context
 export const CartContext = createContext();
@@ -15,7 +15,7 @@ function App() {
   const [storeItems, setStoreItems] = useState({});
   const [activeItem, setActiveItem] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [cart, setCart] = useState({ eating: 1 });
+  const [cart, setCart] = useState({});
 
   const firestoreRef = useRef(null);
 
@@ -55,7 +55,14 @@ function App() {
     <>
       <CartContext.Provider value={[cart, setCart]}>
         <Nav setModalOpen={setModalOpen} />
-        {modalOpen && <CartModal firestoreRef={firestoreRef} storeItems={storeItems} setModalOpen={setModalOpen} />}
+        {modalOpen && (
+          <CartModal
+            setStoreItems={setStoreItems}
+            firestoreRef={firestoreRef}
+            storeItems={storeItems}
+            setModalOpen={setModalOpen}
+          />
+        )}
         <div className='mt-2'>
           <h1 className='text-2xl font-semibold mb-4 mt-4'>{activeItem ? 'check this out' : 'Store'}</h1>
           <div className='max-w-4xl flex flex-col items-center mx-auto'>

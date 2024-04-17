@@ -5,7 +5,7 @@ function ItemView({ activeItem, setActiveItem }) {
   // eslint-disable-next-line react/prop-types
   const { price, title, imageURL, description } = activeItem;
 
-  const [cart, setCart] = useContext(CartContext);
+  const [, setCart] = useContext(CartContext);
 
   const addToCart = () => {
     setCart((prev) => {
